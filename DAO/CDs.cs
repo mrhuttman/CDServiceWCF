@@ -277,12 +277,12 @@ namespace DAO
             sb.AppendLine("SearchCDs_Advanced started.");
             sb.AppendLine("input.Page: " + input.Page.ToString());
             sb.AppendLine("input.SearchCD: ");
-            sb.AppendLine(input.SearchCD.Artist);
-            sb.AppendLine(input.SearchCD.binder.ToString());
-            sb.AppendLine(input.SearchCD.isMixed.ToString());
-            sb.AppendLine(input.SearchCD.misc);
-            sb.AppendLine(input.SearchCD.numDiscs.ToString());
-            sb.AppendLine(input.SearchCD.Title);
+            sb.AppendLine("Artist: " + input.SearchCD.Artist); // TODO: Add labels to each of these rows
+            sb.AppendLine("Binder: " + input.SearchCD.binder.ToString());
+            sb.AppendLine("isMixed: " + input.SearchCD.isMixed.ToString());
+            sb.AppendLine("Misc: " + input.SearchCD.misc);
+            sb.AppendLine("numDiscs: " + input.SearchCD.numDiscs.ToString());
+            sb.AppendLine("Title: " + input.SearchCD.Title);
 
             List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
             int RecordsToSkip = (input.Page - 1) * Constants.PAGE_SIZE;
@@ -317,12 +317,12 @@ namespace DAO
                         query = query.Where(c => c.numDiscs == input.SearchCD.numDiscs);
                     }
 
-                    query
-                    .OrderBy(x => x.Artist)
-                    .ThenBy(x => x.Title)
-                    .Skip(0 <= RecordsToSkip ? RecordsToSkip : 0)
-                    .Take(Constants.PAGE_SIZE)
-                    .ToList<Media_Music_CDs>();
+                    returnValue = query
+                        .OrderBy(x => x.Artist)
+                        .ThenBy(x => x.Title)
+                        .Skip(0 <= RecordsToSkip ? RecordsToSkip : 0)
+                        .Take(Constants.PAGE_SIZE)
+                        .ToList<Media_Music_CDs>();
                 }
                 catch (Exception ex)
                 {
