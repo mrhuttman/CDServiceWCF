@@ -36,7 +36,10 @@ namespace CDServiceWCF
 		[OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
 		CDSearchResult SearchCDs_Binder(SearchCDs_Binder_Input input);
 
-		[OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
+        CDSearchResult SearchCDs_Advanced(SearchCDs_Advanced_Input input);
+
+        [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
 		string UpdateCD(Media_Music_CDs CD);
 	}
 }
