@@ -50,12 +50,22 @@ namespace DAO
 
 		public static Media_Music_CDs GetCD(int ID)
 		{
+            StringBuilder sb = new StringBuilder();
 			Media_Music_CDs returnValue = new Media_Music_CDs();
 			using (Media_Entity ctx = new Media_Entity())
 			{
-				returnValue = ctx.Media_Music_CDs.Single((Media_Music_CDs x) => x.itemNo_pk == (decimal)ID);
+                try
+                {
+                    returnValue = ctx.Media_Music_CDs.Single((Media_Music_CDs x) => x.itemNo_pk == (decimal)ID);
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine("Error in GetCD");
+                    sb.AppendLine(ex.Message);
+                }                
 			}
-			return returnValue;
+            Debug_WriteLog(sb.ToString());
+            return returnValue;
 		}
 
 		public static int GetCDsCount()
@@ -277,7 +287,7 @@ namespace DAO
             sb.AppendLine("SearchCDs_Advanced started.");
             sb.AppendLine("input.Page: " + input.Page.ToString());
             sb.AppendLine("input.SearchCD: ");
-            sb.AppendLine("Artist: " + input.SearchCD.Artist); // TODO: Add labels to each of these rows
+            sb.AppendLine("Artist: " + input.SearchCD.Artist); 
             sb.AppendLine("Binder: " + input.SearchCD.binder.ToString());
             sb.AppendLine("isMixed: " + input.SearchCD.isMixed.ToString());
             sb.AppendLine("Misc: " + input.SearchCD.misc);
