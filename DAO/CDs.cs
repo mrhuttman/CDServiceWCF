@@ -12,16 +12,42 @@ namespace DAO
 	public class CDs
 	{
 		public static int AddCD(Media_Music_CDs CD)
-		{            
-			int retVal = -1;
-			CD.itemNo_pk = CDs.GetCDsCount() + 1;
-			using (Media_Entity ctx = new Media_Entity())
+		{
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("***AddCD Started***");
+            sb.AppendLine("CD: ");
+            sb.AppendLine("itemNo_pk: " + CD.itemNo_pk.ToString());
+            sb.AppendLine("Artist: " + CD.Artist);
+            sb.AppendLine("Title: " + CD.Title);
+            sb.AppendLine("imageUrl_lg: " + CD.imageUrl_lg);
+            sb.AppendLine("imageUrl_sm: " + CD.imageUrl_sm);
+            sb.AppendLine("binder: " + CD.binder.ToString());
+            sb.AppendLine("numDiscs: " + CD.numDiscs.ToString());
+            sb.AppendLine("misc: " + CD.misc);
+            // TODO: Move this to a debug class
+
+            int retVal = -1;
+			CD.itemNo_pk = CDs.GetHighestItemNo() + 1;
+            sb.AppendLine("itemNo_pk [after new itemNo assigned]: " + CD.itemNo_pk.ToString());
+
+            using (Media_Entity ctx = new Media_Entity())
 			{
-				ctx.Media_Music_CDs.Add(CD);
-				ctx.SaveChanges();
-				retVal = (int)Convert.ToInt16(CD.itemNo_pk);
+                try
+                {
+                    ctx.Media_Music_CDs.Add(CD);
+                    ctx.SaveChanges();
+                    retVal = (int)Convert.ToInt16(CD.itemNo_pk);
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine("Error in AddCD");
+                    sb.AppendLine(ex.Message);
+                    sb.AppendLine(ex.InnerException.StackTrace);
+                    sb.AppendLine(ex.HResult.ToString());
+                }				
 			}
-			return retVal;
+            Debug_WriteLog(sb.ToString());
+            return retVal;
 		}
 
 		public static void DeleteCD(int ID)
@@ -78,6 +104,16 @@ namespace DAO
 			return result;
 		}
       
+        public static int GetHighestItemNo()
+        {
+            int result;
+            using (Media_Entity ctx = new Media_Entity())
+            {
+                result = ctx.Media_Music_CDs.Max(m => (int)m.itemNo_pk);
+            }
+            return result;
+        }
+
 		public static List<Media_Music_CDs> SearchCDs_NoFilter(int page)
 		{
             StringBuilder sb = new StringBuilder();
