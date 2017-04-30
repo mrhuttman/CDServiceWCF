@@ -107,7 +107,6 @@ namespace DAO
 		public static List<Media_Music_CDs> SearchCDs_NoFilter(int page)
 		{
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine("SearchCDs_NoFilter started. page: " + page.ToString());
 			List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
 			int RecordsToSkip = (page - 1) * Constants.PAGE_SIZE;
@@ -127,8 +126,7 @@ namespace DAO
                 {
                     sb.AppendLine("Error in SearchCDs_NoFilter");
                     sb.AppendLine(ex.Message);
-                }
-				
+                }				
 			}            
             return returnValue;
 		}
@@ -136,7 +134,6 @@ namespace DAO
         public static List<Media_Music_CDs> SearchCDs_Artist(string artist, int page)
 		{
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine("SearchCDs_Artist started. page: " + page.ToString() + " artist: " + artist);
             List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
 			int RecordsToSkip = (page - 1) * Constants.PAGE_SIZE;
@@ -158,8 +155,7 @@ namespace DAO
                 {
                     sb.AppendLine("Error in SearchCDs_Artist");
                     sb.AppendLine(ex.Message);
-                }
-				
+                }				
 			}            
             return returnValue;
 		}
@@ -168,7 +164,6 @@ namespace DAO
         {
             int result = -1;
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine("SearchCDs_Artist_Count started." + " artist: " + artist);            
                         
             using (Media_Entity ctx = new Media_Entity())
@@ -191,7 +186,6 @@ namespace DAO
         public static List<Media_Music_CDs> SearchCDs_Title(string title, int page)
 		{
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine("SearchCDs_Title started. page: " + page.ToString() + " title: " + title);
             List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
 			int RecordsToSkip = (page - 1) * Constants.PAGE_SIZE;
@@ -213,8 +207,7 @@ namespace DAO
                 {
                     sb.AppendLine("Error in SearchCDs_Title");
                     sb.AppendLine(ex.Message);
-                }
-	
+                }	
 			}            
             return returnValue;
 		}
@@ -223,7 +216,6 @@ namespace DAO
         {
             int result = -1;
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine("SearchCDs_Title_Count started." + " title: " + title);
 
             using (Media_Entity ctx = new Media_Entity())
@@ -246,7 +238,6 @@ namespace DAO
         public static List<Media_Music_CDs> SearchCDs_Binder(int binderNo, int page)
 		{
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine("SearchCDs_Binder started. page: " + page.ToString() + " binderNo: " + binderNo.ToString());
             List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
 			int RecordsToSkip = (page - 1) * Constants.PAGE_SIZE;
@@ -269,7 +260,6 @@ namespace DAO
                     sb.AppendLine("Error in SearchCDs_Binder");
                     sb.AppendLine(ex.Message);
                 }
-
 			}            
             return returnValue;
 		}
@@ -297,7 +287,6 @@ namespace DAO
             }            
             return result;
         }
-
         
         // http://stackoverflow.com/questions/6353350/multiple-where-conditions-in-ef
         public static List<Media_Music_CDs> SearchCDs_Advanced(SearchCDs_Advanced_Input input)
@@ -413,7 +402,6 @@ namespace DAO
                     sb.AppendLine(ex.Message);
                 }
             }
-
             //Debug_WriteLog(sb.ToString());
             return result;
         }
@@ -450,7 +438,6 @@ namespace DAO
                     ctx.Entry<Media_Music_CDs>(ItemToUpdate).State = EntityState.Modified;
                     ctx.SaveChanges();
                 }
-
                 //Debug_WriteLog(sb.ToString());
                 return "Success";
             }
