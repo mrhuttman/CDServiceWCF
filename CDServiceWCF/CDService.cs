@@ -160,7 +160,5 @@ namespace CDServiceWCF
                 return ex.Message;
             }			
 		}
-
-
 	}
 }

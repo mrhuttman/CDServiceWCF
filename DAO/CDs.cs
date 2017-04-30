@@ -45,8 +45,7 @@ namespace DAO
                     sb.AppendLine(ex.InnerException.StackTrace);
                     sb.AppendLine(ex.HResult.ToString());
                 }				
-			}
-            Debug_WriteLog(sb.ToString());
+			}            
             return retVal;
 		}
 
@@ -89,8 +88,7 @@ namespace DAO
                     sb.AppendLine("Error in GetCD");
                     sb.AppendLine(ex.Message);
                 }                
-			}
-            Debug_WriteLog(sb.ToString());
+			}            
             return returnValue;
 		}
 
@@ -139,8 +137,7 @@ namespace DAO
                     sb.AppendLine(ex.Message);
                 }
 				
-			}
-            Debug_WriteLog(sb.ToString());
+			}            
             return returnValue;
 		}
       
@@ -171,8 +168,7 @@ namespace DAO
                     sb.AppendLine(ex.Message);
                 }
 				
-			}
-            Debug_WriteLog(sb.ToString());
+			}            
             return returnValue;
 		}
 
@@ -196,8 +192,7 @@ namespace DAO
                     sb.AppendLine("Error in SearchCDs_Artist_Count");
                     sb.AppendLine(ex.Message);
                 }
-            }
-            Debug_WriteLog(sb.ToString());            
+            }                      
             return result;
         }
 
@@ -228,8 +223,7 @@ namespace DAO
                     sb.AppendLine(ex.Message);
                 }
 	
-			}
-            Debug_WriteLog(sb.ToString());
+			}            
             return returnValue;
 		}
 
@@ -253,8 +247,7 @@ namespace DAO
                     sb.AppendLine("Error in SearchCDs_Title_Count");
                     sb.AppendLine(ex.Message);
                 }
-            }
-            Debug_WriteLog(sb.ToString());
+            }            
             return result;
         }
 
@@ -285,8 +278,7 @@ namespace DAO
                     sb.AppendLine(ex.Message);
                 }
 
-			}
-            Debug_WriteLog(sb.ToString());
+			}            
             return returnValue;
 		}
 
@@ -310,8 +302,7 @@ namespace DAO
                     sb.AppendLine("Error in SearchCDs_Binder_Count");
                     sb.AppendLine(ex.Message);
                 }
-            }
-            Debug_WriteLog(sb.ToString());
+            }            
             return result;
         }
 
@@ -326,6 +317,7 @@ namespace DAO
             sb.AppendLine("Artist: " + input.SearchCD.Artist); 
             sb.AppendLine("Binder: " + input.SearchCD.binder.ToString());
             sb.AppendLine("isMixed: " + input.SearchCD.isMixed.ToString());
+            sb.AppendLine("isSingle: " + input.SearchCD.isSingle.ToString());
             sb.AppendLine("Misc: " + input.SearchCD.misc);
             sb.AppendLine("numDiscs: " + input.SearchCD.numDiscs.ToString());
             sb.AppendLine("Title: " + input.SearchCD.Title);
@@ -354,6 +346,10 @@ namespace DAO
                     {
                         query = query.Where(c => c.isMixed == input.SearchCD.isMixed);
                     }
+                    if (input.Filter_isSingle)
+                    {
+                        query = query.Where(c => c.isSingle == input.SearchCD.isSingle);
+                    }
                     if (false == string.IsNullOrEmpty(input.SearchCD.misc))
                     {
                         query = query.Where(c => c.misc == input.SearchCD.misc);
@@ -377,7 +373,7 @@ namespace DAO
                 }
 
             }
-            Debug_WriteLog(sb.ToString());
+            //Debug_WriteLog(sb.ToString());
             return returnValue;
         }
 
@@ -409,6 +405,10 @@ namespace DAO
                     {
                         query = query.Where(c => c.isMixed == input.SearchCD.isMixed);
                     }
+                    if (input.Filter_isSingle)
+                    {
+                        query = query.Where(c => c.isSingle == input.SearchCD.isSingle);
+                    }
                     if (false == string.IsNullOrEmpty(input.SearchCD.misc))
                     {
                         query = query.Where(c => c.misc == input.SearchCD.misc);
@@ -427,7 +427,7 @@ namespace DAO
                 }
             }
 
-            Debug_WriteLog(sb.ToString());
+            //Debug_WriteLog(sb.ToString());
             return result;
         }
 
@@ -442,6 +442,7 @@ namespace DAO
             sb.AppendLine("imageUrl_lg: " + CD.imageUrl_lg);
             sb.AppendLine("imageUrl_sm: " + CD.imageUrl_sm);
             sb.AppendLine("isMixed: " + CD.isMixed.ToString());
+            sb.AppendLine("isSingle: " + CD.isSingle.ToString());
             sb.AppendLine("itemNo: " + CD.itemNo_pk.ToString());
             sb.AppendLine("Misc: " + CD.misc);
             sb.AppendLine("numDiscs: " + CD.numDiscs.ToString());
@@ -460,6 +461,7 @@ namespace DAO
                     sb.AppendLine("imageUrl_lg: " + ItemToUpdate.imageUrl_lg);
                     sb.AppendLine("imageUrl_sm: " + ItemToUpdate.imageUrl_sm);
                     sb.AppendLine("isMixed: " + ItemToUpdate.isMixed.ToString());
+                    sb.AppendLine("isSingle: " + ItemToUpdate.isSingle.ToString());
                     sb.AppendLine("itemNo: " + ItemToUpdate.itemNo_pk.ToString());
                     sb.AppendLine("Misc: " + ItemToUpdate.misc);
                     sb.AppendLine("numDiscs: " + ItemToUpdate.numDiscs.ToString());
@@ -471,6 +473,7 @@ namespace DAO
                     ItemToUpdate.imageUrl_lg = CD.imageUrl_lg;
                     ItemToUpdate.imageUrl_sm = CD.imageUrl_sm;
                     ItemToUpdate.isMixed = CD.isMixed;
+                    ItemToUpdate.isSingle = CD.isSingle;
                     ItemToUpdate.misc = CD.misc;
                     ItemToUpdate.numDiscs = CD.numDiscs;
                     ItemToUpdate.Title = CD.Title;
@@ -478,14 +481,14 @@ namespace DAO
                     ctx.SaveChanges();
                 }
 
-                Debug_WriteLog(sb.ToString());
+                //Debug_WriteLog(sb.ToString());
                 return "Success";
             }
 			catch (Exception ex)
             {
                 sb.AppendLine("Error in UpdateCD");
                 sb.AppendLine(ex.Message);
-                Debug_WriteLog(sb.ToString());
+                //Debug_WriteLog(sb.ToString());
                 return ex.Message;
             }
 		}

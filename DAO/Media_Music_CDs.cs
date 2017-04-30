@@ -48,7 +48,13 @@ namespace DAO
 			set;
 		}
 
-		[Column(TypeName = "numeric")]
+        public bool? isSingle
+        {
+            get;
+            set;
+        }
+
+        [Column(TypeName = "numeric")]
 		public decimal? binder
 		{
 			get;
@@ -67,6 +73,6 @@ namespace DAO
 		{
 			get;
 			set;
-		}
+		}        
 	}
 }
