@@ -12,19 +12,11 @@ namespace DAO
 	public class CDs
 	{
 		public static int AddCD(Media_Music_CDs CD)
-		{
+		{            
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("***AddCD Started***");
-            sb.AppendLine("CD: ");
-            sb.AppendLine("itemNo_pk: " + CD.itemNo_pk.ToString());
-            sb.AppendLine("Artist: " + CD.Artist);
-            sb.AppendLine("Title: " + CD.Title);
-            sb.AppendLine("imageUrl_lg: " + CD.imageUrl_lg);
-            sb.AppendLine("imageUrl_sm: " + CD.imageUrl_sm);
-            sb.AppendLine("binder: " + CD.binder.ToString());
-            sb.AppendLine("numDiscs: " + CD.numDiscs.ToString());
-            sb.AppendLine("misc: " + CD.misc);
-            // TODO: Move this to a debug class
+            Debug debug = new Debug();
+            sb.Append(debug.printCDParams(CD));
 
             int retVal = -1;
 			CD.itemNo_pk = CDs.GetHighestItemNo() + 1;
@@ -314,13 +306,8 @@ namespace DAO
             sb.AppendLine("SearchCDs_Advanced started.");
             sb.AppendLine("input.Page: " + input.Page.ToString());
             sb.AppendLine("input.SearchCD: ");
-            sb.AppendLine("Artist: " + input.SearchCD.Artist); 
-            sb.AppendLine("Binder: " + input.SearchCD.binder.ToString());
-            sb.AppendLine("isMixed: " + input.SearchCD.isMixed.ToString());
-            sb.AppendLine("isSingle: " + input.SearchCD.isSingle.ToString());
-            sb.AppendLine("Misc: " + input.SearchCD.misc);
-            sb.AppendLine("numDiscs: " + input.SearchCD.numDiscs.ToString());
-            sb.AppendLine("Title: " + input.SearchCD.Title);
+            Debug debug = new Debug();
+            sb.Append(debug.printCDParams(input.SearchCD));
 
             List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
             int RecordsToSkip = (input.Page - 1) * Constants.PAGE_SIZE;
@@ -437,16 +424,8 @@ namespace DAO
             
             sb.AppendLine("UpdateCD started.");
             sb.AppendLine("Input: ");
-            sb.AppendLine("Artist: " + CD.Artist);
-            sb.AppendLine("binderNo: " + CD.binder.ToString());
-            sb.AppendLine("imageUrl_lg: " + CD.imageUrl_lg);
-            sb.AppendLine("imageUrl_sm: " + CD.imageUrl_sm);
-            sb.AppendLine("isMixed: " + CD.isMixed.ToString());
-            sb.AppendLine("isSingle: " + CD.isSingle.ToString());
-            sb.AppendLine("itemNo: " + CD.itemNo_pk.ToString());
-            sb.AppendLine("Misc: " + CD.misc);
-            sb.AppendLine("numDiscs: " + CD.numDiscs.ToString());
-            sb.AppendLine("Title: " + CD.Title);
+            Debug debug = new Debug();
+            sb.Append(debug.printCDParams(CD));
             
             try
             {
@@ -456,16 +435,7 @@ namespace DAO
                     Media_Music_CDs ItemToUpdate = ctx.Media_Music_CDs.Single((Media_Music_CDs x) => x.itemNo_pk == CD.itemNo_pk);
 
                     sb.AppendLine("ItemToUpdate: ");
-                    sb.AppendLine("Artist: " + ItemToUpdate.Artist);
-                    sb.AppendLine("binderNo: " + ItemToUpdate.binder.ToString());
-                    sb.AppendLine("imageUrl_lg: " + ItemToUpdate.imageUrl_lg);
-                    sb.AppendLine("imageUrl_sm: " + ItemToUpdate.imageUrl_sm);
-                    sb.AppendLine("isMixed: " + ItemToUpdate.isMixed.ToString());
-                    sb.AppendLine("isSingle: " + ItemToUpdate.isSingle.ToString());
-                    sb.AppendLine("itemNo: " + ItemToUpdate.itemNo_pk.ToString());
-                    sb.AppendLine("Misc: " + ItemToUpdate.misc);
-                    sb.AppendLine("numDiscs: " + ItemToUpdate.numDiscs.ToString());
-                    sb.AppendLine("Title: " + ItemToUpdate.Title);
+                    sb.Append(debug.printCDParams(ItemToUpdate));
 
                     if (null == ItemToUpdate) { throw new Exception("null record returned on UpdateCD"); }
                     ItemToUpdate.Artist = CD.Artist;

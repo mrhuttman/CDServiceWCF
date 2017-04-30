@@ -53,6 +53,7 @@
     <Compile Include="DAO\Media_Music_CDs.cs" />
     <Compile Include="DAO\Media_Music_Vinyl.cs" />
     <Compile Include="DAO\Vinyl.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
