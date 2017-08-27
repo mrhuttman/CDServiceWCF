@@ -1,10 +1,10 @@
 ﻿using System.Text;
 
-public class Debug
+public static class Debug
 {
-    public string printCDParams(DAO.Media_Music_CDs CD)
-    {        
-        StringBuilder sb = new StringBuilder();                
+    public static string printCDParams(DAO.Media_Music_CDs CD)
+    {
+        StringBuilder sb = new StringBuilder();
         sb.AppendLine("itemNo_pk: " + CD.itemNo_pk.ToString());
         sb.AppendLine("Artist: " + CD.Artist);
         sb.AppendLine("Title: " + CD.Title);
@@ -15,7 +15,9 @@ public class Debug
         sb.AppendLine("binder: " + CD.binder.ToString());
         sb.AppendLine("numDiscs: " + CD.numDiscs.ToString());
         sb.AppendLine("misc: " + CD.misc);
-        return sb.ToString();        
+        return sb.ToString();
     }
 }
+
+
 

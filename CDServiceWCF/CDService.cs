@@ -17,13 +17,13 @@ namespace CDServiceWCF
 				bool flag = -1 != newItemNo;
 				if (!flag)
 				{
-					throw new Exception("AddCD: Save was not successful.");
+					throw new Exception("AddCD ERROR: Save was not successful.");
 				}
 				result = newItemNo.ToString();
 			}
 			catch (Exception ex)
 			{
-				result = ex.Message;
+				result = "ERROR: " + ex.Message;
 			}
 			return result;
 		}
