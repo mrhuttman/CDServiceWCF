@@ -13,9 +13,10 @@ namespace CDServiceWCF
 			string result;
 			try
 			{
-				int newItemNo = CDs.AddCD(CD);
-				bool flag = -1 != newItemNo;
-				if (!flag)
+                // TODO: Change this function to send exception if there is an error
+                // AddCDResult class?
+				int newItemNo = CDs.AddCD(CD);				
+				if (-1 == newItemNo)
 				{
 					throw new Exception("AddCD ERROR: Save was not successful.");
 				}
@@ -23,7 +24,7 @@ namespace CDServiceWCF
 			}
 			catch (Exception ex)
 			{
-				result = "ERROR: " + ex.Message;
+				result = ex.Message;
 			}
 			return result;
 		}
@@ -48,6 +49,24 @@ namespace CDServiceWCF
             return CDs.GetBindersCount();
         }
 
+        public CDSearchResult GetBindersDistinct()
+        {
+            CDSearchResult result = new CDSearchResult();
+            try
+            {
+                result.CDs = CDs.GetBindersDistinct();
+                result.NumRows = result.CDs.Count;
+                result.TotalNumRows = result.CDs.Count;
+                result.Response = "Success";
+            }
+            catch (Exception ex)
+            {
+                result.NumRows = -1;
+                result.Response = ex.Message;
+            }
+            return result;
+        }
+
 		public Media_Music_CDs GetCD(int ID)
 		{
 			return CDs.GetCD(ID);
@@ -58,7 +77,25 @@ namespace CDServiceWCF
             return CDs.GetCDsCount();
         }
 
-		public CDSearchResult SearchCDs_NoFilter(int Page)
+        public CDSearchResult GetGenresDistinct()
+        {
+            CDSearchResult result = new CDSearchResult();
+            try
+            {
+                result.CDs = CDs.GetGenresDistinct();
+                result.NumRows = result.CDs.Count;
+                result.TotalNumRows = result.CDs.Count;
+                result.Response = "Success";
+            }
+            catch (Exception ex)
+            {
+                result.NumRows = -1;
+                result.Response = ex.Message;
+            }
+            return result;
+        }
+
+        public CDSearchResult SearchCDs_NoFilter(int Page)
 		{            
             CDSearchResult result = new CDSearchResult();
             try
@@ -120,6 +157,24 @@ namespace CDServiceWCF
                 result.CDs = CDs.SearchCDs_Binder(input.BinderNo, input.Page);
                 result.NumRows = result.CDs.Count;
                 result.TotalNumRows = CDs.SearchCDs_Binder_Count(input.BinderNo);
+                result.Response = "Success";
+            }
+            catch (Exception ex)
+            {
+                result.NumRows = -1;
+                result.Response = ex.Message;
+            }
+            return result;
+        }
+
+        public CDSearchResult SearchCDs_Genre(SearchCDs_Genre_Input input)
+        {
+            CDSearchResult result = new CDSearchResult();
+            try
+            {
+                result.CDs = CDs.SearchCDs_Genre(input.Genre, input.Page);
+                result.NumRows = result.CDs.Count;
+                result.TotalNumRows = CDs.SearchCDs_Genre_Count(input.Genre);
                 result.Response = "Success";
             }
             catch (Exception ex)

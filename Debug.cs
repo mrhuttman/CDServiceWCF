@@ -15,6 +15,7 @@ public static class Debug
         sb.AppendLine("binder: " + CD.binder.ToString());
         sb.AppendLine("numDiscs: " + CD.numDiscs.ToString());
         sb.AppendLine("misc: " + CD.misc);
+        sb.AppendLine("Genre: " + CD.Genre);
         return sb.ToString();
     }
 }

@@ -19,10 +19,16 @@ namespace CDServiceWCF
         int GetBindersCount();
 
         [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
+        CDSearchResult GetBindersDistinct();
+
+        [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
 		Media_Music_CDs GetCD(int ID);
 
         [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
         int GetCDsCount();
+
+        [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
+        CDSearchResult GetGenresDistinct();
 
         [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
 		CDSearchResult SearchCDs_NoFilter(int Page);
@@ -35,6 +41,9 @@ namespace CDServiceWCF
 
 		[OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
 		CDSearchResult SearchCDs_Binder(SearchCDs_Binder_Input input);
+
+        [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
+        CDSearchResult SearchCDs_Genre(SearchCDs_Genre_Input input);
 
         [OperationContract, WebInvoke(ResponseFormat = WebMessageFormat.Json)]
         CDSearchResult SearchCDs_Advanced(SearchCDs_Advanced_Input input);

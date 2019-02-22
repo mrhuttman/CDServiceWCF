@@ -31,13 +31,16 @@ namespace DAO
 			modelBuilder.Entity<Media_Music_CDs>().Property((Media_Music_CDs e) => e.binder).HasPrecision(18, 0);
 			modelBuilder.Entity<Media_Music_CDs>().Property((Media_Music_CDs e) => e.numDiscs).HasPrecision(18, 0);
 			modelBuilder.Entity<Media_Music_CDs>().Property((Media_Music_CDs e) => e.misc).IsUnicode(new bool?(false));
-			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.itemNo_pk).HasPrecision(18, 0);
+            modelBuilder.Entity<Media_Music_CDs>().Property((Media_Music_CDs e) => e.Genre).IsUnicode(new bool?(false));
+
+            modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.itemNo_pk).HasPrecision(18, 0);
 			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.Artist).IsUnicode(new bool?(false));
 			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.Title).IsUnicode(new bool?(false));
 			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.imageUrl_sm).IsUnicode(new bool?(false));
 			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.imageUrl_lg).IsUnicode(new bool?(false));
 			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.Size).IsUnicode(new bool?(false));
 			modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.misc).IsUnicode(new bool?(false));
-		}
+            modelBuilder.Entity<Media_Music_Vinyl>().Property((Media_Music_Vinyl e) => e.Genre).IsUnicode(new bool?(false));
+        }
 	}
 }

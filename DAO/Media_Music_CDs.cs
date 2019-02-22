@@ -73,6 +73,13 @@ namespace DAO
 		{
 			get;
 			set;
-		}        
-	}
+		}
+
+        [StringLength(255)]
+        public string Genre
+        {
+            get;
+            set;
+        }
+    }
 }

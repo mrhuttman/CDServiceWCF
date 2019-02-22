@@ -61,6 +61,25 @@ namespace DAO
             return result;
         }
 
+        public static List<Media_Music_CDs> GetBindersDistinct()
+        {
+            IQueryable<decimal?> binders;
+            List<Media_Music_CDs> result = new List<Media_Music_CDs>();
+            
+            // Query the distinct list of binder IDs from DB
+            using (Media_Entity ctx = new Media_Entity())
+            { binders = ctx.Media_Music_CDs.Select(m => m.binder).Distinct(); }
+            
+            // Use the IDs returned to build a pseudo search result
+            foreach (decimal? d in binders)
+            {
+                Media_Music_CDs binderCD = new Media_Music_CDs();
+                binderCD.binder = d;
+                result.Add(binderCD);
+            }
+            return result;
+        }
+
 		public static Media_Music_CDs GetCD(int ID)
 		{
             StringBuilder sb = new StringBuilder();
@@ -87,7 +106,26 @@ namespace DAO
 			{ result = ctx.Media_Music_CDs.Count<Media_Music_CDs>(); }
 			return result;
 		}
-      
+
+        public static List<Media_Music_CDs> GetGenresDistinct()
+        {
+            IQueryable<string> genres;
+            List<Media_Music_CDs> result = new List<Media_Music_CDs>();
+
+            // Query the distinct list of binder IDs from DB
+            using (Media_Entity ctx = new Media_Entity())
+            { genres = ctx.Media_Music_CDs.Select(m => m.Genre).Distinct(); }
+
+            // Use the IDs returned to build a pseudo search result
+            foreach (string genre in genres)
+            {
+                Media_Music_CDs genreCD = new Media_Music_CDs();
+                genreCD.Genre = genre;
+                result.Add(genreCD);
+            }
+            return result;
+        }
+
         public static int GetHighestItemNo()
         {
             int result;
@@ -255,7 +293,53 @@ namespace DAO
             }            
             return result;
         }
-        
+
+        public static List<Media_Music_CDs> SearchCDs_Genre(string Genre, int page)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("SearchCDs_Genre started. page: " + page.ToString() + " Genre: " + Genre);
+            List<Media_Music_CDs> returnValue = new List<Media_Music_CDs>();
+            int RecordsToSkip = (page - 1) * Constants.PAGE_SIZE;
+            using (Media_Entity ctx = new Media_Entity())
+            {
+                try
+                {
+                    returnValue = (from x in ctx.Media_Music_CDs where x.Genre == Genre select x)
+                        .OrderBy(x => x.Artist)
+                        .ThenBy(x => x.Title)
+                        .Skip(0 <= RecordsToSkip ? RecordsToSkip : 0)
+                        .Take(Constants.PAGE_SIZE)
+                        .ToList<Media_Music_CDs>();
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine("Error in " + MethodBase.GetCurrentMethod().Name);
+                    sb.AppendLine(ex.Message);
+                }
+            }
+            return returnValue;
+        }
+
+        public static int SearchCDs_Genre_Count(string Genre)
+        {
+            int result = -1;
+            StringBuilder sb = new StringBuilder();
+            using (Media_Entity ctx = new Media_Entity())
+            {
+                try
+                {
+                    result = (from x in ctx.Media_Music_CDs where x.Genre == Genre select x).Count();
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine("Error in " + MethodBase.GetCurrentMethod().Name);
+                    sb.AppendLine(ex.Message);
+                }
+            }
+            return result;
+        }
+
+
         // http://stackoverflow.com/questions/6353350/multiple-where-conditions-in-ef
         public static List<Media_Music_CDs> SearchCDs_Advanced(SearchCDs_Advanced_Input input)
         {
@@ -274,10 +358,10 @@ namespace DAO
                     var query = (from x in ctx.Media_Music_CDs select x);
 
                     if (false == string.IsNullOrEmpty(input.SearchCD.Artist))
-                    { query = query.Where(c => c.Artist.Contains(input.SearchCD.Artist)); }
+                    { query = query.Where(c => c.Artist.Contains(input.SearchCD.Artist.Trim())); }
 
                     if (false == string.IsNullOrEmpty(input.SearchCD.Title))
-                    { query = query.Where(c => c.Title.Contains(input.SearchCD.Title)); }
+                    { query = query.Where(c => c.Title.Contains(input.SearchCD.Title.Trim())); }
 
                     if (0 < input.SearchCD.binder)
                     { query = query.Where(c => c.binder == input.SearchCD.binder); }
@@ -289,7 +373,10 @@ namespace DAO
                     { query = query.Where(c => c.isSingle == input.SearchCD.isSingle); }
 
                     if (false == string.IsNullOrEmpty(input.SearchCD.misc))
-                    { query = query.Where(c => c.misc.Contains(input.SearchCD.misc)); }
+                    { query = query.Where(c => c.misc.Contains(input.SearchCD.misc.Trim())); }
+
+                    if (false == string.IsNullOrEmpty(input.SearchCD.Genre))
+                    { query = query.Where(c => c.Genre.Contains(input.SearchCD.Genre.Trim())); }
 
                     if (0 < input.SearchCD.numDiscs)
                     { query = query.Where(c => c.numDiscs == input.SearchCD.numDiscs); }
@@ -322,10 +409,10 @@ namespace DAO
                     var query = (from x in ctx.Media_Music_CDs select x);
 
                     if (false == string.IsNullOrEmpty(input.SearchCD.Artist))
-                    { query = query.Where(c => c.Artist.Contains(input.SearchCD.Artist)); }
+                    { query = query.Where(c => c.Artist.Contains(input.SearchCD.Artist.Trim())); }
                     
                     if (false == string.IsNullOrEmpty(input.SearchCD.Title))
-                    { query = query.Where(c => c.Title.Contains(input.SearchCD.Title)); }
+                    { query = query.Where(c => c.Title.Contains(input.SearchCD.Title.Trim())); }
 
                     if (0 < input.SearchCD.binder)
                     { query = query.Where(c => c.binder == input.SearchCD.binder); }
@@ -337,7 +424,10 @@ namespace DAO
                     { query = query.Where(c => c.isSingle == input.SearchCD.isSingle); }
 
                     if (false == string.IsNullOrEmpty(input.SearchCD.misc))
-                    { query = query.Where(c => c.misc.Contains(input.SearchCD.misc)); }
+                    { query = query.Where(c => c.misc.Contains(input.SearchCD.misc.Trim())); }
+
+                    if (false == string.IsNullOrEmpty(input.SearchCD.Genre))
+                    { query = query.Where(c => c.Genre.Contains(input.SearchCD.Genre.Trim())); }
 
                     if (0 < input.SearchCD.numDiscs)
                     { query = query.Where(c => c.numDiscs == input.SearchCD.numDiscs); }
@@ -373,6 +463,7 @@ namespace DAO
                     if (null == ItemToUpdate) { throw new Exception("null record returned on UpdateCD"); }
                     ItemToUpdate.Artist = CD.Artist;
                     ItemToUpdate.binder = CD.binder;
+                    ItemToUpdate.Genre = CD.Genre;
                     ItemToUpdate.imageUrl_lg = CD.imageUrl_lg;
                     ItemToUpdate.imageUrl_sm = CD.imageUrl_sm;
                     ItemToUpdate.isMixed = CD.isMixed;

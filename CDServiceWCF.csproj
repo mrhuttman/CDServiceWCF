@@ -44,6 +44,7 @@
     <Compile Include="CDServiceWCF.Entity\SearchCDs_Advanced_Input.cs" />
     <Compile Include="CDServiceWCF.Entity\SearchCDs_Artist_Input.cs" />
     <Compile Include="CDServiceWCF.Entity\SearchCDs_Binder_Input.cs" />
+    <Compile Include="CDServiceWCF.Entity\SearchCDs_Genre_Input.cs" />
     <Compile Include="CDServiceWCF.Entity\SearchCDs_Title_Input.cs" />
     <Compile Include="CDServiceWCF\CDService.cs" />
     <Compile Include="CDServiceWCF\ICDService.cs" />

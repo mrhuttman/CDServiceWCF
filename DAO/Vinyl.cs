@@ -17,7 +17,7 @@ namespace DAO
 					ctx.SaveChanges();
 				}
 			}
-			catch (Exception ex_2E)
+			catch (Exception ex)
 			{
 			}
 		}
@@ -37,7 +37,7 @@ namespace DAO
 					}
 				}
 			}
-			catch (Exception ex_CE)
+			catch (Exception ex)
 			{
 			}
 		}
@@ -52,7 +52,7 @@ namespace DAO
 					returnValue = ctx.Media_Music_Vinyl.Single((Media_Music_Vinyl x) => x.itemNo_pk == (decimal)ID);
 				}
 			}
-			catch (Exception ex_B4)
+			catch (Exception ex)
 			{
 			}
 			return returnValue;
@@ -69,7 +69,7 @@ namespace DAO
 					returnValue = ctx.Media_Music_Vinyl.Skip(RecordsToSkip).Take(Constants.PAGE_SIZE).ToList<Media_Music_Vinyl>();
 				}
 			}
-			catch (Exception ex_44)
+			catch (Exception ex)
 			{
 			}
 			return returnValue;
@@ -88,7 +88,7 @@ namespace DAO
 					select x).Skip(RecordsToSkip).Take(Constants.PAGE_SIZE).ToList<Media_Music_Vinyl>();
 				}
 			}
-			catch (Exception ex_CE)
+			catch (Exception ex)
 			{
 			}
 			return returnValue;
@@ -107,7 +107,7 @@ namespace DAO
 					select x).Skip(RecordsToSkip).Take(Constants.PAGE_SIZE).ToList<Media_Music_Vinyl>();
 				}
 			}
-			catch (Exception ex_CE)
+			catch (Exception ex)
 			{
 			}
 			return returnValue;
@@ -126,11 +126,12 @@ namespace DAO
 					ItemToUpdate.misc = Record.misc;
 					ItemToUpdate.Size = Record.Size;
 					ItemToUpdate.Title = Record.Title;
+                    ItemToUpdate.Genre = Record.Genre;
 					ctx.Entry<Media_Music_Vinyl>(ItemToUpdate).State = EntityState.Modified;
 					ctx.SaveChanges();
 				}
 			}
-			catch (Exception ex_126)
+			catch (Exception ex)
 			{
 			}
 		}
