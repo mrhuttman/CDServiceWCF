@@ -65,19 +65,27 @@ namespace DAO
         {
             IQueryable<decimal?> binders;
             List<Media_Music_CDs> result = new List<Media_Music_CDs>();
-            
+
             // Query the distinct list of binder IDs from DB
+            // NOTE: IQueryable needs an active DB Context to operate. 
+            // More info: https://stackoverflow.com/questions/13617698/the-operation-cannot-be-completed-because-the-dbcontext-has-been-disposed-error
             using (Media_Entity ctx = new Media_Entity())
-            { binders = ctx.Media_Music_CDs.Select(m => m.binder).Distinct(); }
-            
-            // Use the IDs returned to build a pseudo search result
-            foreach (decimal? d in binders)
             {
-                Media_Music_CDs binderCD = new Media_Music_CDs();
-                binderCD.binder = d;
-                result.Add(binderCD);
-            }
-            return result;
+                binders = ctx.Media_Music_CDs
+                    .Where(y => y.binder != null)
+                    .Select(m => m.binder)
+                    .Distinct()
+                    .OrderBy(b => b.Value);
+
+                // Use the IDs returned to build a pseudo search result
+                foreach (decimal? d in binders)
+                {
+                    Media_Music_CDs binderCD = new Media_Music_CDs();
+                    binderCD.binder = d;
+                    result.Add(binderCD);
+                }
+                return result;
+            }                        
         }
 
 		public static Media_Music_CDs GetCD(int ID)
