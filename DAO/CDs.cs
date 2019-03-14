@@ -339,7 +339,7 @@ namespace DAO
             return result;
         }
 
-
+        // This returns a list of CDs that match input criteria for the page specified (or the first page of results)
         // http://stackoverflow.com/questions/6353350/multiple-where-conditions-in-ef
         public static List<Media_Music_CDs> SearchCDs_Advanced(SearchCDs_Advanced_Input input)
         {
@@ -397,6 +397,7 @@ namespace DAO
             return returnValue;
         }
 
+        // This returns a count of ALL CDs that match input criteria
         public static int SearchCDs_Advanced_Count(SearchCDs_Advanced_Input input)
         {
             int result = -1;
